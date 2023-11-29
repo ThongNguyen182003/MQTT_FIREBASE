@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Responsive Dashboard Design #2 | AsmrProg</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+    <script>
+      // REPLACE WITH YOUR web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyC78ir3QHABZFjyLI7VWnWGbGzJH12VMlg",
+        authDomain: "tkllhk231.firebaseapp.com",
+        databaseURL:
+          "https://tkllhk231-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "tkllhk231",
+        storageBucket: "tkllhk231.appspot.com",
+        messagingSenderId: "545082620463",
+        appId: "1:545082620463:web:b41bad51160b259b4ba4da",
+        measurementId: "G-Y9BNY7DJTW",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var database = firebase.database();
+    </script>
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="#" class="logo">
+        <i class="bx bx-code-alt"></i>
+        <div class="logo-name"><span>Smart</span>Home</div>
+      </a>
+      <ul class="side-menu">
+        <li class="active">
+          <a href="#Dashboard"><i class="bx bxs-dashboard"></i>Dashboard</a>
+        </li>
+        <li>
+          <a href="#lineplot"><i class="bx bx-analyse"></i>Analytics</a>
+        </li>
+        <li>
+          <a href="#"><i class="bx bx-message-square-dots"></i>Tickets</a>
+        </li>
+        <li>
+          <a href="#"><i class="bx bx-group"></i>Users</a>
+        </li>
+        <li>
+          <a href="#"><i class="bx bx-cog"></i>Settings</a>
+        </li>
+      </ul>
+      <ul class="side-menu">
+        <li>
+          <a href="#" class="logout">
+            <i class="bx bx-log-out-circle"></i>
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- End of Sidebar -->
+
+    <!-- Main Content -->
+    <div class="content" id="Dashboard">
+      <!-- Navbar -->
+      <nav>
+        <i class="bx bx-menu"></i>
+        <form action="#">
+          <div class="form-input">
+            <input type="search" placeholder="Search..." />
+            <button class="search-btn" type="submit">
+              <i class="bx bx-search"></i>
+            </button>
+          </div>
+        </form>
+        <input type="checkbox" id="theme-toggle" hidden />
+        <label for="theme-toggle" class="theme-toggle"></label>
+        <a href="#" class="notif">
+          <i class="bx bx-bell"></i>
+          <span class="count">12</span>
+        </a>
+        <a href="#" class="profile">
+          <img src="images/logo.png" />
+        </a>
+      </nav>
+
+      <!-- End of Navbar -->
+
+      <main>
+        <div class="header">
+          <div class="left">
+            <h1>Dashboard</h1>
+            <ul class="breadcrumb">
+              <li>
+                <a href="#">
+                  <span id="day"></span>/<span id="month"></span>/<span
+                    id="year"></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <a href="#" class="report">
+            <i class="bx bx-cloud-download"></i>
+            <span>Download CSV</span>
+          </a>
+        </div>
+
+        <!-- Insights -->
+        <ul class="insights">
+          <li>
+            <i class="bx bx-cloud"></i>
+            <span class="info">
+              <h3><span id="temp-living">27</span> C</h3>
+              <p>BedRoom</p>
+            </span>
+          </li>
+          <li>
+            <i class="bx bx-droplet"></i>
+            <span class="info">
+              <h3><span id="hum-living">71</span>%</h3>
+              <p>BedRoom</p>
+            </span>
+          </li>
+          <li>
+            <i class="bx bx-cloud-light-rain"></i>
+            <span class="info">
+              <h3><span id="temp-kitchen">31</span> C</h3>
+              <p>Kitchen</p>
+            </span>
+          </li>
+          <li>
+            <i class="bx bxs-droplet"></i>
+            <span class="info">
+              <h3><span id="hum-kitchen">75</span>%</h3>
+              <p>Total Sales</p>
+            </span>
+          </li>
+        </ul>
+        <div class="content-insights">
+          <h2>Living Room</h2>
+        </div>
+        <!------- ------------------ LIVING ROOM ---------------->
+        <ul class="insights">
+          <li>
+            <i class="bx bx-circle"></i>
+            <span class="info">
+              <h3>
+                <span>Lamp</span>
+              </h3>
+              <p id="led-living-room">OFF</p>
+            </span>
+            <div class="sw">
+              <label class="switch">
+                <input type="checkbox" id="" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </li>
+          <li>
+            <i class="bx bx-door-open"></i>
+            <span class="info">
+              <h3>Door</h3>
+              <p id="door-living-room">Close</p>
+            </span>
+            <label class="switch">
+              <input type="checkbox" id="" />
+              <span class="slider round"></span>
+            </label>
+          </li>
+          <li>
+            <i class="bx bx-wind"></i>
+            <span class="info">
+              <h3>Fan</h3>
+              <p id="fan-living-room">Close</p>
+            </span>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider round"></span>
+            </label>
+          </li>
+          <li>
+            <i class="bx bx-dollar-circle"></i>
+            <span class="info">
+              <h3>$6,742</h3>
+              <p>Total Sales</p>
+            </span>
+          </li>
+        </ul>
+
+        <!------- ------------------ BED ROOM ---------------->
+        <div class="content-insights">
+          <h2>Bed Room</h2>
+        </div>
+        <ul class="insights">
+          <li>
+            <i class="bx bx-circle"></i>
+            <span class="info">
+              <h3>
+                <span>Lamp</span>
+              </h3>
+              <p id="led-living-room">OFF</p>
+            </span>
+            <div class="sw">
+              <label class="switch">
+                <input type="checkbox" id="myCheckbox1" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </li>
+          <li>
+            <i class="bx bx-door-open"></i>
+            <span class="info">
+              <h3>Door</h3>
+              <p id="door-living-room">Close</p>
+            </span>
+            <label class="switch">
+              <input type="checkbox" id="" />
+              <span class="slider round"></span>
+            </label>
+          </li>
+          <li>
+            <i class="bx bx-wind"></i>
+            <span class="info">
+              <h3>Fan</h3>
+              <p id="fan-living-room">Close</p>
+            </span>
+            <label class="switch">
+              <input type="checkbox" id="myCheckbox3" />
+              <span class="slider round"></span>
+            </label>
+          </li>
+          <li>
+            <i class="bx bx-dollar-circle"></i>
+            <span class="info">
+              <h3>$6,742</h3>
+              <p>Total Sales</p>
+            </span>
+          </li>
+        </ul>
+
+        <!------- ------------------ Kitchen---------------->
+        <div class="content-insights">
+          <h2>Kitchen</h2>
+        </div>
+        <ul class="insights">
+          <li>
+            <i class="bx bx-circle"></i>
+            <span class="info">
+              <h3>
+                <span>Lamp</span>
+              </h3>
+              <p id="led-living-room">OFF</p>
+            </span>
+            <div class="sw">
+              <label class="switch">
+                <input type="checkbox" id="myCheckbox2" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </li>
+          <li>
+            <i class="bx bx-door-open"></i>
+            <span class="info">
+              <h3>Door</h3>
+              <p id="door-living-room">Close</p>
+            </span>
+            <label class="switch">
+              <input type="checkbox" id="" />
+              <span class="slider round"></span>
+            </label>
+          </li>
+          <li>
+            <i class="bx bx-wind"></i>
+            <span class="info">
+              <h3>Fan</h3>
+              <p id="fan-living-room">Close</p>
+            </span>
+            <label class="switch">
+              <input type="checkbox" id="" />
+              <span class="slider round"></span>
+            </label>
+          </li>
+          <li>
+            <i class="bx bx-dollar-circle"></i>
+            <span class="info">
+              <h3>$6,742</h3>
+              <p>Total Sales</p>
+            </span>
+          </li>
+        </ul>
+        <!-- End of Insights -->
+
+        <div class="bottom-data">
+          <div class="orders">
+            <div class="header">
+              <i class="bx bx-receipt"></i>
+              <h3>Recent Orders</h3>
+              <i class="bx bx-filter"></i>
+            </div>
+          </div>
+
+          <!-- Reminders -->
+          <div class="reminders" id="lineplot">
+            <div class="header">
+              <i class="bx bx-line-chart"></i>
+              <h3>Line plot temperature & humidity</h3>
+              <i class="bx bx-filter"></i>
+            </div>
+            <div class="chart">
+              <p>Line plot</p>
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+
+          <!-- End of Reminders-->
+        </div>
+      </main>
+    </div>
+
+    <script src="app.js">
+    </script>
+  </body>
+</html>
